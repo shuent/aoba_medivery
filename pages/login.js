@@ -3,23 +3,12 @@ import React from "react";
 import { useRouter } from "next/router";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { firebase, fireAuth } from "../lib/firebase";
-import {AuthContext} from '../hooks/useAuth'
-import {useContext, useEffect} from 'react'
-
-
+import { AuthContext } from "../hooks/useAuth";
+import { useContext, useEffect, useState } from "react";
 
 function SignInScreen() {
   const router = useRouter();
-  const { currentUser } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (currentUser) {
-      // TODO: or if not curernt user
-      router.push('/')
-    }
-  }, [currentUser])
-
-
+  const { currentUser } = useContext(AuthContext);
 
   // Configure FirebaseUI.
   const uiConfig = {
@@ -52,7 +41,11 @@ function SignInScreen() {
   return (
     <div>
       <h1>Login</h1>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fireAuth} />
+      {currentUser ? (
+        <p>alreay logged in</p>
+      ) : (
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fireAuth} />
+      )}
     </div>
   );
 }

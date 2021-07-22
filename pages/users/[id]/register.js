@@ -29,7 +29,7 @@ export default function UserRegister() {
   useEffect(() => {
     if (currentUser === null) {
       // TODO: or if not curernt user
-      router.push('/login')
+      router.push('/')
     }
   }, [currentUser])
 
