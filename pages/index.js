@@ -18,7 +18,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          一人暮らしで体調不良のときの薬・食べ物デリバリーサービス
+          一人暮らしで体調不良のときのお薬・食べ物デリバリーサービス
         </p>
 
         <div className={styles.grid}>
