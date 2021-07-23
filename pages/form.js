@@ -52,7 +52,6 @@ export default function AppForm() {
   const secondView = () => {
     const index = FirstStage.findIndex(item => item.symptop === state)
     const result = SecondStage[index]
-    // console.log(result)
     return result
   }
 
@@ -85,7 +84,12 @@ export default function AppForm() {
             {FirstStage.map((value) => (
               <li>
                 <label>
-                  <input type="radio" name="q1" value={value.symptop} onChange={handleFirstChecked}/>
+                  <input 
+                    type="radio"
+                    name="q1"
+                    value={value.symptop}
+                    onChange={handleFirstChecked}
+                  />
                   {value.symptop}
                 </label>
               </li>
