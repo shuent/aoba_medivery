@@ -30,14 +30,14 @@ export default function AppForm() {
     {symptop:'生理痛', tag:'cramp'},
   ]
 
-  const FirstState = [
+  const Symptoms = [
     {symptop:'頭痛', secondStage:Headache},
     {symptop:'熱', secondStage:Fever},
     {symptop:'胃痛・腹痛', secondStage:StomachAche},
     {symptop:'生理痛', secondStage:Menstruation},
   ]
 
-  const [state, setState] = useState({first: FirstState[0].symptop, secondTag: undefined})
+  const [state, setState] = useState({first: Symptoms[0].symptop, secondTag: undefined})
   const [secondState, setSecondState] = useState(Headache)
 
   const handleFirstChecked = (e) => {
@@ -52,7 +52,7 @@ export default function AppForm() {
   }
 
   const selectSecondView = (firstSymptop) =>{
-    return FirstState.find(first=>first.symptop === firstSymptop).secondStage
+    return Symptoms.find(first=>first.symptop === firstSymptop).secondStage
   }
 
   return (
@@ -80,7 +80,7 @@ export default function AppForm() {
           <div className="section">
             <h2 className="has-text-primary has-text-weight-bold">症状を選択</h2>
             <ul>
-              {FirstState.map((value, index) => (
+              {Symptoms.map((value, index) => (
                 <li key={index}>
                   <label>
                     <input
