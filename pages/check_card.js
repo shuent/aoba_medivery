@@ -17,7 +17,7 @@ export default function info_card() {
 
     const suggestProducts = products.filter(item => item.tag.includes(selectedTag))
 
-    const [orderNumbers,setorderNumbers] =  useState([0])
+    const [orderNumbers,setorderNumbers] = useState([0])
 
     const order = () => {
         setorderNumbers([
@@ -32,7 +32,6 @@ export default function info_card() {
 
     return (
         <>
-        {add_order()}
         {suggestProducts.map((suggestProduct) => (
             <div>
                 <p><label>{suggestProduct.name}</label></p>    
