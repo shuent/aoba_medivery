@@ -23,4 +23,10 @@ const getAllProducts = async () => {
     return products_array
 }
 
-export {getAllProducts}
+const getProduct = async (productId) => {
+    const doc = await productsRef.doc(productId).get()
+    const data = doc.data()
+    return {id: doc.id, ...data}
+}
+
+export {getAllProducts, getProduct}
