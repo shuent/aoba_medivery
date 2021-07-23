@@ -1,9 +1,11 @@
 import Head from "next/head";
 import stylesForm from "../styles/form.module.css";
 import styles from "../styles/Home.module.css";
+import React, { useState } from 'react';
 
 export default function AppForm() {
 
+  //第二段階
   const Headache = [
     {symptop:'熱もある', tag:'headache1'},
     {symptop:'頭が重い', tag:'headache2'},
@@ -14,6 +16,7 @@ export default function AppForm() {
     {symptop:'とにかく熱がひどい', tag:'fever1'},
     {symptop:'頭痛・喉の痛みがする', tag:'fever2'},
     {symptop:'くしゃみ・鼻水が止まらない', tag:'fever3'},
+    {symptop:'せきが止まらない', tag:'fever4'},
   ]
 
   const StomachAche = [
@@ -26,12 +29,32 @@ export default function AppForm() {
     {symptop:'生理痛', tag:'cramp'},
   ]
 
+  const SecondStage = [
+    Headache,
+    Fever,
+    StomachAche,
+    Menstruation
+  ]
+
   const FirstStage = [
     {symptop:'頭痛', secondStage:Headache},
     {symptop:'熱', secondStage:Fever},
     {symptop:'胃痛・腹痛', secondStage:StomachAche},
     {symptop:'生理痛', secondStage:Menstruation},
   ]
+
+  const [state, setState] = useState(FirstStage[0].symptop)
+
+  const handleFirstChecked = (e) => {
+    setState(e.target.value)
+  }
+
+  const secondView = () => {
+    const index = FirstStage.findIndex(item => item.symptop === state)
+    const result = SecondStage[index]
+    // console.log(result)
+    return result
+  }
 
   return (
     <div>
@@ -45,7 +68,7 @@ export default function AppForm() {
       <section className="hero">
         <div className="hero-body">
           <div clasclassNames="container">
-            <span className="has-text-centeredr">
+            <span className="has-text-centered">
               Medivery
             </span>
           </div>
@@ -57,10 +80,15 @@ export default function AppForm() {
         <p>当てはまる症状を選択してください。</p>
 
         <div className="section">
-          <h2>症状選択(第一段階)</h2>
+          <h2 className="has-text-primary">症状選択(第一段階)</h2>
           <ul>
             {FirstStage.map((value) => (
-              <li><label><input type="radio" name="q1" value={value.symptop}/>{value.symptop}</label></li>
+              <li>
+                <label>
+                  <input type="radio" name="q1" value={value.symptop} onChange={handleFirstChecked}/>
+                  {value.symptop}
+                </label>
+              </li>
             ))}
           </ul>
         </div>
@@ -68,8 +96,13 @@ export default function AppForm() {
         <div className="section">
           <h2>症状選択(第二段階)</h2>
           <ul>
-            {Headache.map((value) => (
-              <li className="decorarion-none"><label><input type="radio" name="q2" value={value.tag}/>{value.symptop}</label></li>
+            {secondView().map((value) => (
+              <li>
+                <label>
+                  <input type="radio" name="q2" value={value.symptop} onChange={handleFirstChecked}/>
+                  {value.symptop}
+                </label>
+              </li>
             ))}
           </ul>
         </div>
