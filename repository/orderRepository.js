@@ -1,26 +1,43 @@
-import { fireDb } from "../lib/firebase";
+import { fireDb, firebase } from "../lib/firebase";
 import { getUser, setUserInfo } from "./userRepository";
-
+import { getProduct } from "./productRepository";
 const ordersRef = fireDb.collection("orders")
 
 /**
  * @param {User} user 
- * @param {Array<{productId: string, quantity: number}} productsWithQueantity 
+ * @param {Array<{id: string, quantity: number}} productsWithQueantity 
  * @returns {Promise<string>} orderRef
  */
 
-const setOrder = async (userId, productsWithQueantity) => {
+const setOrder = async (userId, productsWithQuantity) => {
     // return Promise<undefined>
     const user = await getUser(userId)
+    // status = "processing" | "done"
     const doc = await ordersRef.add({
         user,
-        productsWithQueantity
+        productsWithQuantity,
+        status: "processing",
+        issuedDate: firebase.firestore.FieldValue.serverTimestamp()
     })
     return doc.id
 }
 
-const getOrderWithProducts = async (orderId) => {
-    const order = await ordersRef.doc(orderId)
+const setOrderDone = (orderId) => {
+    return ordersRef.doc(orderId).update({status: "done"})
 }
 
-export {setOrder}
+const getOrderWithProducts = async (orderId) => {
+    const doc = await ordersRef.doc(orderId).get()
+    const {productsWithQuantity, status, issuedDate, user} = doc.data()
+
+    const products = await Promise.all(productsWithQuantity.map( async (p) => {
+        console.log(p)
+        const product = await getProduct(p.id)
+        const quantity = p.quantity
+        return { quantity, ...product }
+    }))
+    
+    return {id: doc.id, status, issuedDate, user, products}
+}
+
+export {setOrder, setOrderDone, getOrderWithProducts}
