@@ -30,46 +30,29 @@ export default function AppForm() {
     {symptop:'生理痛', tag:'cramp'},
   ]
 
-  const SecondStage = [
-    Headache,
-    Fever,
-    StomachAche,
-    Menstruation
-  ]
-
-  const FirstStage = [
+  const FirstState = [
     {symptop:'頭痛', secondStage:Headache},
     {symptop:'熱', secondStage:Fever},
     {symptop:'胃痛・腹痛', secondStage:StomachAche},
     {symptop:'生理痛', secondStage:Menstruation},
   ]
 
-  const [state, setState] = useState(FirstStage[0].symptop)
-  const [stateSecond, setStateSecond] = useState(SecondStage[0][0].symptop)
+  const [state, setState] = useState({first: FirstState[0].symptop, secondTag: undefined})
+  const [secondState, setSecondState] = useState(Headache)
 
   const handleFirstChecked = (e) => {
-    setState(e.target.value)
+
+    setState({...state, first: e.target.value})
+    setSecondState(selectSecondView(e.target.value))
   }
 
   const handleSecondChecked = (e) => {
-    setStateSecond(e.target.value)
+
+    setState({...state, secondTag: e.target.value})
   }
 
-  const secondView = () => {
-    const index = FirstStage.findIndex(item => item.symptop === state)
-    // console.log(index)
-    const result = SecondStage[index]
-    // console.log(result)
-    return result
-  }
-
-  const handleTag = () => {
-    console.log(stateSecond)
-    const index = secondView().findIndex(item => item.symptop === stateSecond)
-    console.log(index)
-    const result = secondView()[index].tag
-    // console.log(result)
-    return result
+  const selectSecondView = (firstSymptop) =>{
+    return FirstState.find(first=>first.symptop === firstSymptop).secondStage
   }
 
   return (
@@ -97,7 +80,7 @@ export default function AppForm() {
           <div className="section">
             <h2 className="has-text-primary has-text-weight-bold">症状を選択</h2>
             <ul>
-              {FirstStage.map((value, index) => (
+              {FirstState.map((value, index) => (
                 <li key={index}>
                   <label>
                     <input
@@ -105,7 +88,7 @@ export default function AppForm() {
                       type="radio"
                       name="q1"
                       value={value.symptop}
-                      defaultChecked={index === 0}
+                      defaultChecked={index===0}
                       onChange={handleFirstChecked}
                     />
                     {value.symptop}
@@ -118,15 +101,14 @@ export default function AppForm() {
           <div className={`section ${stylesForm.section2}`}>
             <h2 className="has-text-primary has-text-weight-bold">詳しい症状</h2>
             <ul>
-              {secondView().map((value, index) => (
+              {secondState.map((value, index) => (
                 <li key={index}>
                   <label>
                     <input
                       className={stylesForm.inputSize}
                       type="radio"
                       name="q2"
-                      value={value.symptop}
-                      defaultChecked={index === 0}
+                      value={value.tag}
                       onChange={handleSecondChecked}
                     />
                     {value.symptop}
@@ -138,11 +120,11 @@ export default function AppForm() {
         </div>
 
         <div className={`section ${stylesForm.section2}`}>
-          <Link href={{pathname: './products', query: {tag:handleTag()}}}>
+          <Link href={{pathname: '/products', query: {tag: state.secondTag}}}>
             <button
               className="button is-vcentered"
               type="submit"
-              value={secondView().tag}
+              disabled={!state.secondTag}
             >
             決定
             </button>
