@@ -1,4 +1,5 @@
 import Head from "next/head";
+import stylesForm from "../styles/form.module.css";
 import styles from "../styles/Home.module.css";
 import React, { useState } from 'react';
 import Link from 'next/link'
