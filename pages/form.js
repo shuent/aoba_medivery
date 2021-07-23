@@ -45,92 +45,102 @@ export default function AppForm() {
   ]
 
   const [state, setState] = useState(FirstStage[0].symptop)
-  const [state2, setState2] = useState(SecondStage[0].symptop)
+  const [stateSecond, setStateSecond] = useState(SecondStage[0][0].symptop)
 
   const handleFirstChecked = (e) => {
     setState(e.target.value)
   }
 
   const handleSecondChecked = (e) => {
-    setState2(e.target.value)
-  }
-
-  const handleTag = (e) => {
-    const index = SecondStage.findIndex(item => item.symptop === state2)
-    const result = secondView()[index].tag
-    return result
+    setStateSecond(e.target.value)
   }
 
   const secondView = () => {
     const index = FirstStage.findIndex(item => item.symptop === state)
+    // console.log(index)
     const result = SecondStage[index]
+    // console.log(result)
+    return result
+  }
+
+  const handleTag = () => {
+    console.log(stateSecond)
+    const index = secondView().findIndex(item => item.symptop === stateSecond)
+    console.log(index)
+    const result = secondView()[index].tag
+    // console.log(result)
     return result
   }
 
   return (
     <div>
       <Head>
-        <title>症状選択</title>
+        <title>診断</title>
       </Head>
 
-      <section className="hero">
+      <section className="hero is-primary">
         <div className="hero-body">
-          <div clasclassNames="container">
-            <span className="has-text-centered">
-              Medivery
-            </span>
-          </div>
+          <p className="title">
+            Medivery
+          </p>
+          <p className="subtitle">
+            体調が悪いときのデリバリー
+          </p>
         </div>
       </section>
 
-      <main className="container">
-        <h1 className="title">症状選択</h1>
+      <main className={stylesForm.container}>
+        <h1 className="title">診断</h1>
         <p>当てはまる症状を選択してください。</p>
 
-        <div className="section">
-          <h2 className="has-text-primary has-text-weight-bold">症状選択(第一段階)</h2>
-          <ul>
-            {FirstStage.map((value, index) => (
-              <li key={index}>
-                <label>
-                  <input
-                    type="radio"
-                    name="q1"
-                    value={value.symptop}
-                    defaultChecked={index === 0}
-                    onChange={handleFirstChecked}
-                  />
-                  {value.symptop}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="section">
-          <h2 className="has-text-weight-bold">症状選択(第二段階)</h2>
-          <ul>
-            {secondView().map((value, index) => (
-              <li key={index}>
-                <label>
-                  <input
-                    type="radio"
-                    name="q2"
-                    value={value.tag}
-                    defaultChecked={index === 0}
-                    onChange={handleSecondChecked}
-                  />
-                  {value.symptop}
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         <div>
-          <Link href={{pathname: './product', query: {tag:handleTag()}}}>
+          <div className="section">
+            <h2 className="has-text-primary has-text-weight-bold">症状を選択</h2>
+            <ul>
+              {FirstStage.map((value, index) => (
+                <li key={index}>
+                  <label>
+                    <input
+                      className={stylesForm.inputSize}
+                      type="radio"
+                      name="q1"
+                      value={value.symptop}
+                      defaultChecked={index === 0}
+                      onChange={handleFirstChecked}
+                    />
+                    {value.symptop}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={`section ${stylesForm.section2}`}>
+            <h2 className="has-text-primary has-text-weight-bold">詳しい症状</h2>
+            <ul>
+              {secondView().map((value, index) => (
+                <li key={index}>
+                  <label>
+                    <input
+                      className={stylesForm.inputSize}
+                      type="radio"
+                      name="q2"
+                      value={value.symptop}
+                      defaultChecked={index === 0}
+                      onChange={handleSecondChecked}
+                    />
+                    {value.symptop}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className={`section ${stylesForm.section2}`}>
+          <Link href={{pathname: './products', query: {tag:handleTag()}}}>
             <button
-              className="button"
+              className="button is-vcentered"
               type="submit"
               value={secondView().tag}
             >
