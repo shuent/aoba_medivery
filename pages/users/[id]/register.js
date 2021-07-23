@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {AuthContext} from '../../../hooks/useAuth'
 import {useContext} from 'react'
+import { setUserInfo } from "../../../repository/userRepository";
 
 export default function UserRegister() {
 
@@ -21,14 +22,19 @@ export default function UserRegister() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(state)
-    // TODO: register user info db
+
+    if( currentUser){
+      const uid = currentUser.uid
+      setUserInfo(uid, state).then((docRef)=>{
+        console.log(docRef)
+        router.push({pathname: "/users/[id]", query: {id: uid}})
+      })
+    }    
   };
 
   
   useEffect(() => {
     if (currentUser === null) {
-      // TODO: or if not curernt user
       router.push('/')
     }
   }, [currentUser])
