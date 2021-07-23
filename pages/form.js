@@ -128,7 +128,7 @@ export default function AppForm() {
         </div>
 
         <div>
-          <Link href={{pathname: './product', query: {tag:handleTag()}}}>
+          <Link href={{pathname: './products', query: {tag:handleTag()}}}>
             <button
               className="button"
               type="submit"
