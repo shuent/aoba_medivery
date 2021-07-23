@@ -2,6 +2,7 @@ import Head from "next/head";
 import stylesForm from "../styles/form.module.css";
 import styles from "../styles/Home.module.css";
 import React, { useState } from 'react';
+import Link from 'next/link'
 
 export default function AppForm() {
 
@@ -54,10 +55,10 @@ export default function AppForm() {
     setState2(e.target.value)
   }
 
-  const handleClick = (e) => {
+  const handleTag = (e) => {
     const index = SecondStage.findIndex(item => item.symptop === state2)
     const result = secondView()[index].tag
-    console.log(result)
+    return result
   }
 
   const secondView = () => {
@@ -127,13 +128,15 @@ export default function AppForm() {
         </div>
 
         <div>
-          <button
-            type="submit"
-            onClick={handleClick}
-            value={secondView().tag}
-          >
-          決定
-          </button>
+          <Link href={{pathname: './product', query: {tag:handleTag()}}}>
+            <button
+              className="button"
+              type="submit"
+              value={secondView().tag}
+            >
+            決定
+            </button>
+          </Link>
         </div>
       </main>
 
