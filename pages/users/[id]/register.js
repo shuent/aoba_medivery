@@ -59,7 +59,7 @@ export default function UserRegister() {
             {' '}
             住所
           </label>
-          <div class="control">
+          <div className="control">
             <input
               className="input"
               type="text"
@@ -73,7 +73,7 @@ export default function UserRegister() {
           <label className="label" htmlFor="born_year">
             生まれ年（西暦）
           </label>
-          <div class="control">
+          <div className="control">
             <input
               className="input"
               type="number"
@@ -87,7 +87,7 @@ export default function UserRegister() {
 
         <p>支払いタイプ</p>
         <div className="field">
-          <div class="control">
+          <div className="control">
             <label className="label" htmlFor="credit_card">
               <input
                 type="radio"
@@ -126,7 +126,7 @@ export default function UserRegister() {
           </div>
         </div>
         <div className="field">
-          <div class="control">
+          <div className="control">
             <label htmlFor="ccnum" className="label">カード番号</label>
             <input
               type="tell"
@@ -138,7 +138,7 @@ export default function UserRegister() {
           </div>
         </div>
         <div className="field">
-          <div class="control">
+          <div className="control">
             <input className="button" type="submit" />
           </div>
         </div>
