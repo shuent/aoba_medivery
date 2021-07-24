@@ -4,7 +4,7 @@ import { getDrivers } from '../repository/driversRepository'
 
 const baseUrl =
   process.env.NODE_ENV === 'production'
-    ? process.env.VERCEL_URL
+    ? process.env.NEXT_PUBLIC_VERCEL_URL
     : 'http://localhost:3000'
 
 export const takeOrder = async (userId, userEmail, productsOrderd) => {
