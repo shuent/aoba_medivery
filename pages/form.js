@@ -1,11 +1,15 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+
 import stylesForm from "../styles/form.module.css";
 import styles from "../styles/Home.module.css";
-import React, { useState } from 'react';
 import Link from 'next/link'
+import { AuthContext } from "../hooks/useAuth";
+import { useContext, useEffect, useState } from "react";
 
 export default function AppForm() {
-
+  const router = useRouter();
+  const { currentUser } = useContext(AuthContext);
   //第二段階
   const Headache = [
     {symptop:'熱もある', tag:'headache1'},
@@ -56,32 +60,26 @@ export default function AppForm() {
     return Symptoms.find(first=>first.symptop === firstSymptop).secondStage
   }
 
-  // if()
+  useEffect(() => {
+    if (currentUser === null) {
+      router.push('/')
+    }
+  }, [currentUser])
 
   return (
     <div>
       <Head>
-        <title>診断</title>
+        <title>最適な商品を診断します</title>
       </Head>
-
-      <section className="hero is-primary">
-        <div className="hero-body">
-          <p className="title">
-            Medivery
-          </p>
-          <p className="subtitle">
-            体調が悪いときのデリバリー
-          </p>
-        </div>
-      </section>
-
+      <div style={{width: "100%"}}>
       <main className={stylesForm.container}>
-        <h1 className="title">診断</h1>
-        <p>当てはまる症状を選択してください。</p>
+      {/* <main className="container box"> */}
+        <h1 className="title">最適な商品を診断します</h1>
+        <p style={{marginBottom: "32px"}}>当てはまる症状を選択してください。</p>
 
-        <div>
-          <div className="section">
-            <h2 className="has-text-primary has-text-weight-bold">症状を選択</h2>
+        <div className="box">
+          <div style={{marginBottom: "32px"}}>
+            <h2 className="title is-5 has-text-primary">症状を選択</h2>
             <ul>
               {Symptoms.map((value, index) => (
                 <li key={index}>
@@ -101,8 +99,8 @@ export default function AppForm() {
             </ul>
           </div>
 
-          <div className={`section ${stylesForm.section2}`}>
-            <h2 className="has-text-primary has-text-weight-bold">詳しい症状</h2>
+          <div >
+            <h2 className="title is-5 has-text-primary">詳しい症状</h2>
             <ul>
               {secondState.map((value, index) => (
                 <li key={index}>
@@ -122,10 +120,10 @@ export default function AppForm() {
           </div>
         </div>
 
-        <div className={`section ${stylesForm.section2}`}>
+        <div >
           <Link href={{pathname: '/products', query: {tag: state.secondTag}}}>
             <button
-              className="button is-vcentered"
+              className="button is-primary"
               type="submit"
               disabled={!state.secondTag}
             >
@@ -134,6 +132,7 @@ export default function AppForm() {
           </Link>
         </div>
       </main>
+      </div>
 
       <footer className={styles.footer}>Powered by Aoba</footer>
     </div>

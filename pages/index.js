@@ -10,23 +10,11 @@ export default function Home() {
         <title>Medivery</title>
       </Head>
 
-      <section className="hero is-primary">
-        <div className="hero-body">
-          <p className="title">
-            Medivery
-          </p>
-          <p className="subtitle">
-            体調が悪いときのデリバリー
-          </p>
-        </div>
-      </section>
-
       <main className={`${styles.container}`}>
 
         
-        <div className={`section ${styles.mainTitle}`}>
+        <div className={` ${styles.mainTitle}`}>
           <h1 className={`has-text-weight-bold is-size-2-mobile ${styles.title}`}>Medivery</h1>
-
           <p className={`is-size-5-mobile ${styles.description}`}>
             一人暮らしで体調不良のときの<br/>薬・食べ物のデリバリーサービス
           </p>
@@ -36,7 +24,7 @@ export default function Home() {
             <a className={styles.card}>
               <h2 className="is-size-5-mobile">症状選択する &rarr;</h2>
               <p className="is-size-6-mobile">
-                症状を入力して、最適な商品をレコメンド、選んだ商品を自宅に届けます。
+                症状に合わせた最適な商品をレコメンドします。
               </p>
             </a>
           </Link>

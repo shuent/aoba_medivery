@@ -8,10 +8,11 @@ export default function UserPage() {
   if( !id ) return <div> Not found</div>
 
   return (
-    <>
+    <div className="container box">
+
       <Link href={`/users/${id}/register`}>
         <a>アカウントを編集</a>
       </Link>
-    </>
+    </div>
   )
 }

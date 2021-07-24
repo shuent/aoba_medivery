@@ -31,24 +31,29 @@ const DriverOrderTakePage = () => {
   }
 
   return (
-    <>
-      <div>配達状況: {order.status}</div>
-      <div>注文日時: {order.issuedDate?.toDate().toLocaleString()}</div>
-      <div>お届け先: {order.user.address}</div>
-      <div>支払い方法: {order.user.pay_method}</div>
+<div className="container content section">
+    <h2>注文状況</h2>
+        <p>配達状況: <b>{order.status === "done" ? "配達完了" : "配達中"}</b></p>
+      <p>注文日時: {order.issuedDate?.toDate().toLocaleString()}</p>
+      <p>お届け先: {order.user.address}</p>
+      <div>支払い方法: {order.user.pay_method === "cash" ? "現金" : "クレジットカード"}</div>
       <h2>買い物リスト</h2>
       <div>
         {order.products.map((product) => {
             
-          return (<li><div>{product.name}</div>
+          return (<div className="box"><div>{product.name}</div>
           <div>{product.quantity}個</div>
           <div>{product.price}円</div>
-            </li>)
+            </div>)
         })}
-        合計金額: {totalPrice(order)} 円
+        <div className="block">
+
+        <p>合計金額: <b>{totalPrice(order)} 円</b></p>
+        </div>
+      <button className="button is-primary" onClick={handleClick}>配達完了</button>
+
       </div>
-      <button onClick={handleClick}>配達完了</button>
-    </>
+    </div>
   )
 }
 
