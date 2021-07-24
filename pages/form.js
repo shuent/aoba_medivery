@@ -62,7 +62,7 @@ export default function AppForm() {
 
   useEffect(() => {
     if (currentUser === null) {
-      router.push('/')
+      router.push('/login')
     }
   }, [currentUser])
 

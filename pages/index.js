@@ -20,18 +20,18 @@ export default function Home() {
           </p>
         </div>
         <div className={styles.grid}>
+          <Link href="/login">
+            <a className={styles.card}>
+              <h2 className="is-size-5-mobile">会員登録・ログインする &rarr;</h2>
+              <p className="is-size-6-mobile">元気なときに情報を登録しておきましょう。</p>
+            </a>
+          </Link>
           <Link href="/form">
             <a className={styles.card}>
               <h2 className="is-size-5-mobile">症状選択する &rarr;</h2>
               <p className="is-size-6-mobile">
                 症状に合わせた最適な商品をレコメンドします。
               </p>
-            </a>
-          </Link>
-          <Link href="/login">
-            <a className={styles.card}>
-              <h2 className="is-size-5-mobile">会員登録・ログインする &rarr;</h2>
-              <p className="is-size-6-mobile">元気なときに情報を登録しておきましょう。</p>
             </a>
           </Link>
         </div>
