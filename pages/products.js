@@ -4,26 +4,9 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { getAllProducts } from '../repository/productRepository'
 import { takeOrder } from '../usecases/takeOrder'
-<<<<<<< HEAD
-import { AuthContext } from "../hooks/useAuth"
-import { fireStrage } from "../lib/firebase";
-
-const storageRef = fireStrage.ref()
-const productsRef = storageRef.child('products/BufferinA.png')
-
-const url =  "https://firebasestorage.googleapis.com/v0/b/medivery-69439.appspot.com/o/"+encodeURIComponent(productsRef)+"?alt=media"
-const showImage = () => productsRef.getDownloadURL().then((url) => {
-  return <img width="400px" src= {url} alt="show" />
-});
-
-const fileName = 'BufferinA.png'
-const spaceRef = productsRef.child(fileName)
-const path = spaceRef.fullPath
-console.log(path)
-=======
 import { AuthContext } from '../hooks/useAuth'
 import { getUser } from '../repository/userRepository'
->>>>>>> origin/main
+
 
 export default function Product() {
   const router = useRouter()
@@ -111,7 +94,7 @@ export default function Product() {
           {suggestProducts.map((suggestProduct) => {
             const currentQuantity = getQuantity(suggestProduct.id)
             return (
-<<<<<<< HEAD
+
               // // <div>
               // //  <ProductCard product={suggestProduct} />
               // // </div>
@@ -130,39 +113,13 @@ export default function Product() {
                     onClick={() => {
                       minusOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
                     }}
-=======
-              // <div>
-              //  <ProductCard product={suggestProduct} />
-              // </div>
-              <div>
-                <p>{suggestProduct.name}</p>
-                <p>{suggestProduct.explanation}</p>
-                <p>{suggestProduct.price}円</p>
-                <p>
-                  <button
-                    onClick={() =>
-                      addOrder(
-                        suggestProduct.id,
-                        currentQuantity,
-                        suggestProduct.price
-                      )
-                    }
->>>>>>> origin/main
                   >
                     <label>-</label>
                   </button>
                   <label className={styles.citem}>{currentQuantity}</label>
                   <button className={`button ${styles.citem}`}
                     onClick={() => {
-<<<<<<< HEAD
                       addOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
-=======
-                      minusOrder(
-                        suggestProduct.id,
-                        currentQuantity,
-                        suggestProduct.price
-                      )
->>>>>>> origin/main
                     }}
                   >
                     <label>+</label>
@@ -172,9 +129,7 @@ export default function Product() {
               </div>
             </div>
             )
-          })}
-<<<<<<< HEAD
-          
+          })}         
         </main>
         {/* <footer className={styles.footer}>Powered by Aoba</footer> */}
         <div className={styles.fix}>
@@ -182,13 +137,6 @@ export default function Product() {
             <span className={`has-text-weight-bold ${styles.sumprice}`}>合計料金: {totalPrice()}円</span>
             <button className={`button`} onClick={handleClick} disabled={(totalPrice() < 1) || isCompletedOrder}>注文</button>
             {isCompletedOrder && <div>注文完了しました。数時間以内にお届けしますので、お待ちください。</div>}
-=======
-          <div>合計料金: {totalPrice()}</div>
-          <div>
-            <button onClick={handleClick} disabled={totalPrice() < 1}>
-              注文
-            </button>
->>>>>>> origin/main
           </div>
           </div>
       </div>
