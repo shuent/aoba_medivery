@@ -17,15 +17,13 @@ function Header() {
 
   return (
 
-    <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+    <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <a className="navbar-item" >
-          <Link href={`/`}>
-            <a className={`has-text-weight-bold ${styles.head_title}`}>Medivery</a>
-          </Link>
+        <a className="navbar-item" href="/">
+          Medivery
         </a>
 
-        <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" className={`navbar-burger ${styles.burger}`} aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
