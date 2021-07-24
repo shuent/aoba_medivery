@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import {AuthContext} from '../../../hooks/useAuth'
 import {useContext} from 'react'
 import { setUserInfo } from "../../../repository/userRepository";
+import Head from "next/head";
 
 export default function UserRegister() {
 
@@ -42,6 +43,10 @@ export default function UserRegister() {
 
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+      </Head>
+      
       <form onSubmit={handleSubmit}>
         <fieldset>
           <div>

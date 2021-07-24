@@ -17,63 +17,53 @@ function Header() {
 
   return (
 
-    <div>
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" >
-            <Link href={`/`}>
-              <a className={`has-text-weight-bold ${styles.head_title}`}>Medivery</a>
-            </Link>
-          </a>
+    <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+      <div className="navbar-brand">
+        <a className="navbar-item" >
+          <Link href={`/`}>
+            <a className={`has-text-weight-bold ${styles.head_title}`}>Medivery</a>
+          </Link>
+        </a>
 
-          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+        <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" className="navbar-menu">
+        <div className="navbar-start">
+          <Link href={`/form`}>
+            <a className="navbar-item">診断フォーム</a>
+          </Link>
+          <a className="navbar-item">なんにもないです</a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <Link href={`/form`}>
-              <a class="navbar-item">診断フォーム</a>
-            </Link>
-            <a class="navbar-item">Documentation</a>
-          </div>
-        </div>
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <div className="buttons">
+                
+              {currentUser ? (
+                <div>
+                  <Link href={`/users/${currentUser.uid}`}>
+                    <strong className="button is-primary"> マイページへ: {currentUser.displayName}</strong>
+                  </Link>
+                  <a className="button is-light" onClick={handleLogout}>ログアウト</a>
+                </div>
+              ) : (
+                <div>
+                  <Link href={`/login`}>
+                    <a className="button is-info"> ログインページへ</a>
+                  </Link>
+                </div>
 
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-info">
-
-
-
-                {currentUser ? (
-                  <div>
-                    <div>
-                      <Link href={`/users/${currentUser.uid}`}>
-                        <a class="button is-light"> マイページへ: {currentUser.displayName}</a>
-                      </Link>
-                    </div>
-                    <a class="button is-light" onClick={handleLogout}>ログアウト</a>
-                  </div>
-                ) : (
-                  <div>
-                    <Link href={`/login`}>
-                      <a> ログインページへ</a>
-                    </Link>
-                  </div>
-
-                )}
-
-        
-              </a>
+              )}
             </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
 

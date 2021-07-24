@@ -68,7 +68,7 @@ export default function AppForm() {
         <div className="hero-body">
           <div clasclassNames="container">
             <span className="has-text-centered">
-              Medivery
+              aaa
             </span>
           </div>
         </div>

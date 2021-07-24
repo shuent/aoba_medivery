@@ -5,6 +5,7 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { firebase, fireAuth } from "../lib/firebase";
 import { AuthContext } from "../hooks/useAuth";
 import { useContext, useEffect, useState } from "react";
+import Head from "next/head";
 
 function SignInScreen() {
   const router = useRouter();
@@ -40,6 +41,10 @@ function SignInScreen() {
 
   return (
     <div>
+      <Head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+      </Head>
+
       <h1>Login</h1>
       {currentUser ? (
         <p>alreay logged in</p>
