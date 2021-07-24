@@ -14,6 +14,7 @@ export default function Product() {
 
   const [orderList, setOrderList] = useState([])
   const [products, setProducts] = useState([])
+  const [isCompletedOrder, setIsCompletedOrder] = useState(false)
 
   const { tag: selectedTag } = router.query
 
