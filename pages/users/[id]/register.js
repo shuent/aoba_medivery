@@ -28,7 +28,6 @@ export default function UserRegister() {
       const uid = currentUser.uid
       const userData = {...state, displayName: currentUser.displayName, email: currentUser.email}
       setUserInfo(uid, userData).then((docRef)=>{
-        console.log(docRef)
         router.push({pathname: "/users/[id]", query: {id: uid}})
       })
     }    
