@@ -42,7 +42,7 @@ export default function AppForm() {
 
   const handleFirstChecked = (e) => {
 
-    setState({...state, first: e.target.value})
+    setState({first: e.target.value})
     setSecondState(selectSecondView(e.target.value))
   }
 
@@ -51,9 +51,12 @@ export default function AppForm() {
     setState({...state, secondTag: e.target.value})
   }
 
+
   const selectSecondView = (firstSymptop) =>{
     return Symptoms.find(first=>first.symptop === firstSymptop).secondStage
   }
+
+  // if()
 
   return (
     <div>

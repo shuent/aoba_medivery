@@ -4,17 +4,15 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { getAllProducts } from '../repository/productRepository'
 import { takeOrder } from '../usecases/takeOrder'
-import { AuthContext } from "../hooks/useAuth";
+import { AuthContext } from '../hooks/useAuth'
+import { getUser } from '../repository/userRepository'
 
 export default function Product() {
   const router = useRouter()
-  const { currentUser } = useContext(AuthContext);
-
+  const { currentUser } = useContext(AuthContext)
 
   const [orderList, setOrderList] = useState([])
   const [products, setProducts] = useState([])
-  const [isCompletedOrder, setIsCompletedOrder] = useState(false)
-  
 
   const { tag: selectedTag } = router.query
 
@@ -34,7 +32,7 @@ export default function Product() {
 
   const addOrder = (id, currentQuantity, price) => {
     const excepted = orderList.filter((ol) => ol.id !== id)
-    setOrderList([...excepted, { id, quantity: currentQuantity + 1, price}])
+    setOrderList([...excepted, { id, quantity: currentQuantity + 1, price }])
   }
 
   const minusOrder = (id, currentQuantity, price) => {
@@ -44,23 +42,33 @@ export default function Product() {
     setOrderList([...excepted, { id, quantity: currentQuantity - 1, price }])
   }
 
-  const handleClick = () => {
-    if (!currentUser) {
-      router.push("/")
+  const handleClick = async () => {
+    const hasUser = currentUser && (await getUser(currentUser.uid))
+    // if no user data registered, go to top
+    if (!hasUser) {
+      router.push('/')
       return
     }
     const userId = currentUser.uid
+    const userEmail = currentUser.email
 
-    const filtered = orderList.filter((ol => ol.quantity > 0))
-    takeOrder(userId, filtered)
-    setIsCompletedOrder(true)
+    const filtered = orderList.filter((ol) => ol.quantity > 0)
+    const orderId = await takeOrder(userId, userEmail, filtered)
 
+    router.push({
+      pathname: '/orders/[id]',
+      query: {
+        id: orderId,
+      },
+    })
   }
 
-  const totalPrice = () =>{
-    
-    return orderList.reduce((acc, product) => acc + Number(product.quantity) * Number(product.price),0)
-}
+  const totalPrice = () => {
+    return orderList.reduce(
+      (acc, product) => acc + Number(product.quantity) * Number(product.price),
+      0
+    )
+  }
 
   if (!selectedTag || products.length === 0) return <div>loading</div>
 
@@ -93,14 +101,24 @@ export default function Product() {
                 <p>{suggestProduct.price}円</p>
                 <p>
                   <button
-                    onClick={() => addOrder(suggestProduct.id, currentQuantity, suggestProduct.price)}
+                    onClick={() =>
+                      addOrder(
+                        suggestProduct.id,
+                        currentQuantity,
+                        suggestProduct.price
+                      )
+                    }
                   >
                     +
                   </button>
                   {currentQuantity}
                   <button
                     onClick={() => {
-                      minusOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
+                      minusOrder(
+                        suggestProduct.id,
+                        currentQuantity,
+                        suggestProduct.price
+                      )
                     }}
                   >
                     -
@@ -109,12 +127,11 @@ export default function Product() {
               </div>
             )
           })}
+          <div>合計料金: {totalPrice()}</div>
           <div>
-            合計料金: {totalPrice()}
-          </div>
-          <div>
-            <button onClick={handleClick} disabled={(totalPrice() < 1) || isCompletedOrder}>注文</button>
-            {isCompletedOrder && <div>注文完了しました。数時間以内にお届けしますので、お待ちください。</div>}
+            <button onClick={handleClick} disabled={totalPrice() < 1}>
+              注文
+            </button>
           </div>
         </main>
 

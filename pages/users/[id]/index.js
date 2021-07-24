@@ -5,12 +5,12 @@ export default function UserPage() {
   const router = useRouter()
   const { id } = router.query
 
+  if( !id ) return <div> Not found</div>
+
   return (
     <>
-      user id : {id}
-      <p>アカウント情報を編集</p>
       <Link href={`/users/${id}/register`}>
-        <a>編集ページへ</a>
+        <a>アカウントを編集</a>
       </Link>
     </>
   )
