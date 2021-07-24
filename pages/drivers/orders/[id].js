@@ -41,7 +41,7 @@ const DriverOrderTakePage = () => {
       <div>
         {order.products.map((product) => {
             
-          return (<div className="box"><div>{product.name}</div>
+          return (<div className="box" key={product.name}><div>{product.name}</div>
           <div>{product.quantity}個</div>
           <div>{product.price}円</div>
             </div>)

@@ -99,7 +99,7 @@ export default function Product() {
               // // <div>
               // //  <ProductCard product={suggestProduct} />
               // // </div>
-              <div className={`card ${styles.margin}`}>
+              <div key={suggestProduct.id} className={`card ${styles.margin}`}>
                 <div className={'card-content'}>
                   <div className={"media-content"}>
                     <p className={`title ${styles.paddin}`}>{suggestProduct.name}</p>
