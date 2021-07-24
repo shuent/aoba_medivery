@@ -31,7 +31,6 @@ const getOrderWithProducts = async (orderId) => {
     const {productsWithQuantity, status, issuedDate, user} = doc.data()
 
     const products = await Promise.all(productsWithQuantity.map( async (p) => {
-        console.log(p)
         const product = await getProduct(p.id)
         const quantity = p.quantity
         return { quantity, ...product }

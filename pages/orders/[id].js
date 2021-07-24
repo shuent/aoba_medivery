@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { getOrderWithProducts, setOrderDone } from '../../../repository/orderRepository'
+import { getOrderWithProducts, setOrderDone } from '../../repository/orderRepository'
 
-const DriverOrderTakePage = () => {
+const OrderPage = () => {
   const router = useRouter()
   const { id: orderId } = router.query
 
   const [order, setOrder] = useState()
 
-    const handleClick= ()=>{
+  const handleClick= ()=>{
     setOrderDone(orderId)
     // TODO: send orderd user email.
   }
@@ -20,11 +20,9 @@ const DriverOrderTakePage = () => {
     })
   }, [orderId, handleClick]) // reload data on button click
 
-  const totalPrice= (order) =>{
+  const totalPrice = (order) =>{
       return order.products.reduce((acc, product) => acc + Number(product.quantity) * Number(product.price),0)
   }
-
-
 
   if (!order) {
     return <div>Order not found</div>
@@ -32,7 +30,8 @@ const DriverOrderTakePage = () => {
 
   return (
     <>
-      <div>配達状況: {order.status}</div>
+    <div>注文完了しました。数時間以内にお届けしますので、お待ちください。</div> 
+      <div>配達状況: {order.status === "done" ? "配達完了" : "配達中"}</div>
       <div>注文日時: {order.issuedDate?.toDate().toLocaleString()}</div>
       <div>お届け先: {order.user.address}</div>
       <div>支払い方法: {order.user.pay_method}</div>
@@ -47,9 +46,8 @@ const DriverOrderTakePage = () => {
         })}
         合計金額: {totalPrice(order)} 円
       </div>
-      <button onClick={handleClick}>配達完了</button>
     </>
   )
 }
 
-export default DriverOrderTakePage
+export default OrderPage
