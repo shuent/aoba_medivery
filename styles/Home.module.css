@@ -8,6 +8,11 @@
   height: 100vh;
 }
 
+.head_title {
+  font-size: 1.75rem;
+  font-style: bold;
+}
+
 .main {
   padding: 5rem 0;
   flex: 1;
@@ -113,6 +118,48 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.cfooter {
+  background-color: transparent;
+  align-items: stretch;
+  display: flex;
+}
+
+.citem{
+  align-items: center;
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: .75rem;
+}
+
+.fix{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: #ccc;
+  text-align: center;
+}
+
+.sumprice{
+  padding-bottom: 1em;
+}
+
+.page{
+  padding-bottom:50px;
+}
+.margin{
+  margin-bottom: 2em;
+}
+.paddin{
+  padding-bottom: 20px;
+}
+.border-modify {
+  border-right: 0 
 }
 
 @media (max-width: 600px) {

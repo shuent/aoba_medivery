@@ -7,12 +7,14 @@ import { takeOrder } from '../usecases/takeOrder'
 import { AuthContext } from '../hooks/useAuth'
 import { getUser } from '../repository/userRepository'
 
+
 export default function Product() {
   const router = useRouter()
   const { currentUser } = useContext(AuthContext)
 
   const [orderList, setOrderList] = useState([])
   const [products, setProducts] = useState([])
+  const [isCompletedOrder, setIsCompletedOrder] = useState(false)
 
   const { tag: selectedTag } = router.query
 
@@ -74,9 +76,10 @@ export default function Product() {
 
   return (
     <>
-      <div>
+      <div　className={styles.page}>
         <Head>
           <title>レコメンド商品一覧</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
         </Head>
 
         <section className="hero">
@@ -92,50 +95,51 @@ export default function Product() {
           {suggestProducts.map((suggestProduct) => {
             const currentQuantity = getQuantity(suggestProduct.id)
             return (
-              // <div>
-              //  <ProductCard product={suggestProduct} />
-              // </div>
-              <div>
-                <p>{suggestProduct.name}</p>
-                <p>{suggestProduct.explanation}</p>
-                <p>{suggestProduct.price}円</p>
-                <p>
-                  <button
-                    onClick={() =>
-                      addOrder(
-                        suggestProduct.id,
-                        currentQuantity,
-                        suggestProduct.price
-                      )
-                    }
-                  >
-                    +
-                  </button>
-                  {currentQuantity}
-                  <button
+
+              // // <div>
+              // //  <ProductCard product={suggestProduct} />
+              // // </div>
+              <div className={`card ${styles.margin}`}>
+                <div className={'card-content'}>
+                  <div className={"media-content"}>
+                    <p className={`title ${styles.paddin}`}>{suggestProduct.name}</p>
+                    <p className={`subtitle ${styles.paddin}`}>{suggestProduct.price}円</p>
+                  </div>
+                <div className={`content ${styles.paddin}`}>{suggestProduct.explanation}</div>
+               
+
+                
+                <footer className={styles.cfooter}>
+                  <button className={`button ${styles.citem}`}
                     onClick={() => {
-                      minusOrder(
-                        suggestProduct.id,
-                        currentQuantity,
-                        suggestProduct.price
-                      )
+                      minusOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
                     }}
                   >
-                    -
+                    <label>-</label>
                   </button>
-                </p>
+                  <label className={styles.citem}>{currentQuantity}</label>
+                  <button className={`button ${styles.citem}`}
+                    onClick={() => {
+                      addOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
+                    }}
+                  >
+                    <label>+</label>
+                  </button>
+                </footer>
+                
               </div>
+            </div>
             )
-          })}
-          <div>合計料金: {totalPrice()}</div>
-          <div>
-            <button onClick={handleClick} disabled={totalPrice() < 1}>
-              注文
-            </button>
-          </div>
+          })}         
         </main>
-
-        <footer className={styles.footer}>Powered by Aoba</footer>
+        {/* <footer className={styles.footer}>Powered by Aoba</footer> */}
+        <div className={styles.fix}>
+          <div className={styles.order}>
+            <span className={`has-text-weight-bold ${styles.sumprice}`}>合計料金: {totalPrice()}円</span>
+            <button className={`button`} onClick={handleClick} disabled={(totalPrice() < 1) || isCompletedOrder}>注文</button>
+            {isCompletedOrder && <div>注文完了しました。数時間以内にお届けしますので、お待ちください。</div>}
+          </div>
+          </div>
       </div>
     </>
   )
