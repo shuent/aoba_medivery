@@ -7,7 +7,17 @@ const getAllProducts = async () => {
     // return Promise<undefined>
     const products_info = await productsRef.get()
     products_info.forEach((doc) => {
-         products_array.push(doc.data())
+       const data = doc.data()
+         products_array.push({
+            id: doc.id,
+            explanation: data.explanation,
+            image: data.image, 
+            price: data.price,
+            maker: data.maker,
+            usage: data.usage,
+            tag: data.tag,
+            name: data.name
+         })
     });
     
     return products_array

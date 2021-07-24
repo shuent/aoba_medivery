@@ -1,64 +1,125 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head'
+import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
-import React,{ useEffect, useState } from 'react';
-import { getAllProducts } from "../repository/productRepository";
-import ProductCard from "../components/ProductCard.js";
+import React, { useContext, useEffect, useState } from 'react'
+import { getAllProducts } from '../repository/productRepository'
+import { takeOrder } from '../usecases/takeOrder'
+import { AuthContext } from "../hooks/useAuth";
 
 export default function Product() {
   const router = useRouter()
-  console.log(router.query);
+  const { currentUser } = useContext(AuthContext);
 
+
+  const [orderList, setOrderList] = useState([])
   const [products, setProducts] = useState([])
-    useEffect(() => {
-        getAllProducts().then((data)=>{
-            setProducts(data)
-           })  
-    }, []);
+  const [isCompletedOrder, setIsCompletedOrder] = useState(false)
+  
 
-    const selectedTag = router.query.tag
+  const { tag: selectedTag } = router.query
 
-    console.log(selectedTag);
-    // const [suggestProducts,setSuggestProducts]= useState([])
+  const suggestProducts = products.filter((item) =>
+    item.tag.includes(selectedTag)
+  )
 
-    const suggestProducts = products.filter(item => item.tag.includes(selectedTag))
+  useEffect(() => {
+    getAllProducts().then((data) => {
+      setProducts(data)
+    })
+  }, [])
 
+  const getQuantity = (id) => {
+    return orderList.find((order) => order.id === id)?.quantity ?? 0
+  }
+
+  const addOrder = (id, currentQuantity, price) => {
+    const excepted = orderList.filter((ol) => ol.id !== id)
+    setOrderList([...excepted, { id, quantity: currentQuantity + 1, price}])
+  }
+
+  const minusOrder = (id, currentQuantity, price) => {
+    if (currentQuantity < 1) return
+
+    const excepted = orderList.filter((ol) => ol.id !== id)
+    setOrderList([...excepted, { id, quantity: currentQuantity - 1, price }])
+  }
+
+  const handleClick = () => {
+    if (!currentUser) {
+      router.push("/")
+      return
+    }
+    const userId = currentUser.uid
+
+    const filtered = orderList.filter((ol => ol.quantity > 0))
+    takeOrder(userId, filtered)
+    setIsCompletedOrder(true)
+
+  }
+
+  const totalPrice = () =>{
+    
+    return orderList.reduce((acc, product) => acc + Number(product.quantity) * Number(product.price),0)
+}
+
+  if (!selectedTag || products.length === 0) return <div>loading</div>
 
   return (
-    <div>
-      <Head>
-        <title>レコメンド商品一覧</title>
-      </Head>
+    <>
+      <div>
+        <Head>
+          <title>レコメンド商品一覧</title>
+        </Head>
 
-      <section className="hero">
-        <div className="hero-body">
-          <div clasclassNames="container">
-            <span className="has-text-centered">
-              Medivery
-            </span>
+        <section className="hero">
+          <div className="hero-body">
+            <div clasclassNames="container">
+              <span className="has-text-centered">Medivery</span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <main className="container">
-        <h1 className="title">レコメンド商品一覧</h1>
-        {suggestProducts.map((suggestProduct) => (
+        <main className="container">
+          <h1 className="title">レコメンド商品一覧</h1>
+          {suggestProducts.map((suggestProduct) => {
+            const currentQuantity = getQuantity(suggestProduct.id)
+            return (
+              // <div>
+              //  <ProductCard product={suggestProduct} />
+              // </div>
+              <div>
+                <p>{suggestProduct.name}</p>
+                <p>{suggestProduct.explanation}</p>
+                <p>{suggestProduct.price}円</p>
+                <p>
+                  <button
+                    onClick={() => addOrder(suggestProduct.id, currentQuantity, suggestProduct.price)}
+                  >
+                    +
+                  </button>
+                  {currentQuantity}
+                  <button
+                    onClick={() => {
+                      minusOrder(suggestProduct.id, currentQuantity, suggestProduct.price)
+                    }}
+                  >
+                    -
+                  </button>
+                </p>
+              </div>
+            )
+          })}
           <div>
-           <ProductCard product={suggestProduct} />
+            合計料金: {totalPrice()}
           </div>
-        ))}
-        <div>
-          <button
-            className="button"
-            type="submit"
-          >
-          注文
-          </button>
-        </div>
+          <div>
+            <button onClick={handleClick} disabled={(totalPrice() < 1) || isCompletedOrder}>注文</button>
+            {isCompletedOrder && <div>注文完了しました。数時間以内にお届けしますので、お待ちください。</div>}
+          </div>
+        </main>
 
-      </main>
-
-      <footer className={styles.footer}>Powered by Aoba</footer>
-    </div>
-  );
-} 
+        <footer className={styles.footer}>Powered by Aoba</footer>
+      </div>
+    </>
+  )
+}
